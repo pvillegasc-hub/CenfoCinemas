@@ -13,7 +13,7 @@ namespace Balanceless.DAO
 
         public SqlOperation()
         {
-
+             
             Parameters = new List<SqlParameter>();
         }
 
