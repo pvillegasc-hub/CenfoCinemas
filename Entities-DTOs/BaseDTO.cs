@@ -10,4 +10,4 @@ namespace Entities_DTOs
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
     }
-}
+} 
