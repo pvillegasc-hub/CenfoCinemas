@@ -11,4 +11,7 @@
   <Folder Name="/3_WebAPi/">
     <Project Path="WebAPI/WebAPI.csproj" />
   </Folder>
+  <Folder Name="/99_TestBot/">
+    <Project Path="ConsoleApp-Test/ConsoleApp-Test.csproj" Id="72fc76d4-ccb9-4dd2-95fb-61c53a400260" />
+  </Folder>
 </Solution>

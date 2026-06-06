@@ -1,14 +1,14 @@
 ﻿using Balanceless.DAO;
 using System.Data.SqlClient;
 
-    public class SqlDao
+public class SqlDao
 {
     private static SqlDao instance;
     private string connectionString;
 
     private SqlDao()
     {
-        connectionString = string.Empty;
+        connectionString = @"Data Source=DESKTOP-IEFR6P5;Initial Catalog=cenfocinemas-db;Integrated Security=True;TrustServerCertificate=True";
     }
 
     public static SqlDao GetInstance()
