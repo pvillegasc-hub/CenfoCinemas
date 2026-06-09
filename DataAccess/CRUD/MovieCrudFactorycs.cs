@@ -1,4 +1,4 @@
-﻿using Balanceless.DAO;  // ← Cambia DataAccess.DAO por Balanceless.DAO
+﻿using Balanceless.DAO;
 using Entities_DTOs;
 using Entities_DTOs.Entities_DTOs;
 using System;
@@ -10,14 +10,14 @@ namespace DataAccess.CRUD
     {
         public CrudMovieFactory()
         {
-            sqlDao = SqlDao.GetInstance();  // Ya no necesitas DataAccess.DAO.
+            sqlDao = SqlDao.GetInstance();
         }
 
         public override void Create(BaseDTO baseDTO)
         {
             var movie = baseDTO as Movie;
 
-            var sqlOperation = new SqlOperation();  // Ya no necesitas DataAccess.DAO.
+            var sqlOperation = new SqlOperation();
             sqlOperation.ProcedureName = "CRE_MOVIE_PR";
 
             sqlOperation.AddStringParameter("P_TITLE", movie.Title);
@@ -45,6 +45,7 @@ namespace DataAccess.CRUD
             sqlOperation.AddIntParameter("P_DURATION", movie.Duration);
             sqlOperation.AddStringParameter("P_CLASIFICATION", movie.Clasification);
             sqlOperation.AddStringParameter("P_IMAGE", movie.Image);
+            sqlOperation.AddStringParameter("P_STATUS", movie.Status);
 
             sqlDao.ExecuteProcedure(sqlOperation);
         }
