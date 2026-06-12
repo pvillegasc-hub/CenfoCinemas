@@ -1,5 +1,8 @@
-﻿using System;
-using Balanceless.DAO;
+﻿using Balanceless.DAO;
+using DataAccess.CRUD;
+using Entities_DTOs;
+using System;
+using Newtonsoft.Json;
 
 public class Program
 {
@@ -55,7 +58,7 @@ public class Program
 
         Console.WriteLine("Ingrese el telefono ");
         var phone = int.Parse(Console.ReadLine());
-         
+
         sqlOperation.ProcedureName = "CRE_USER_PR";
         sqlOperation.AddStringParameter("P_USER_CODE", userCode);
         sqlOperation.AddStringParameter("P_NAME", name);
@@ -107,4 +110,14 @@ public class Program
 
         Console.WriteLine("Película agregada exitosamente!");
     }
+}
+
+Console.WriteLine("Listado de usuarios del aplicativo");
+
+var uCrud = new UserCrudFactory();
+var lstUsers = uCrud.RetrieveAll<User>();
+
+foreach (var user in lstUsers)
+{
+    Console.WriteLine(JsonConvert.SerializeObject(user));
 }
