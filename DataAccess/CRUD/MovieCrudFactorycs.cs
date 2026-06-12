@@ -63,12 +63,55 @@ namespace DataAccess.CRUD
 
         public override T RetrieveById<T>(int id)
         {
-            throw new NotImplementedException();
+            var sqlOperation = new SqlOperation();
+            sqlOperation.ProcedureName = "RET_MOVIE_BY_ID_PR";
+            sqlOperation.AddIntParameter("P_ID", id);
+
+            var results = sqlDao.ExecuteQueryProcedure(sqlOperation);
+
+            if (results.Count > 0)
+            {
+                var row = results[0];
+                var movie = new Movie
+                {
+                    Id = (int)row["Id"],
+                    Title = (string)row["Title"],
+                    Sinopsis = (string)row["Sinopsis"],
+                    Genre = (string)row["Genre"],
+                    Duration = (int)row["Duration"],
+                    Clasification = (string)row["Clasification"],
+                    Image = (string)row["Image"],
+                    Status = (string)row["Status"]
+                };
+                return (T)(object)movie;
+            }
+            return default(T);
         }
 
         public override List<T> RetrieveAll<T>()
         {
-            throw new NotImplementedException();
+            var sqlOperation = new SqlOperation();
+            sqlOperation.ProcedureName = "RET_ALL_MOVIES_PR";
+
+            var results = sqlDao.ExecuteQueryProcedure(sqlOperation);
+
+            var movies = new List<T>();
+            foreach (var row in results)
+            {
+                var movie = new Movie
+                {
+                    Id = (int)row["Id"],
+                    Title = (string)row["Title"],
+                    Sinopsis = (string)row["Sinopsis"],
+                    Genre = (string)row["Genre"],
+                    Duration = (int)row["Duration"],
+                    Clasification = (string)row["Clasification"],
+                    Image = (string)row["Image"],
+                    Status = (string)row["Status"]
+                };
+                movies.Add((T)(object)movie);
+            }
+            return movies;
         }
     }
 }
