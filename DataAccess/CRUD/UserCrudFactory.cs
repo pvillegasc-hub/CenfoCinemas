@@ -51,6 +51,7 @@ namespace DataAccess.CRUD
                 foreach (var result in lstResults)
                 {
                     var user = BuildUser(result);
+
                     lstUsers.Add((T)Convert.ChangeType(user, typeof(T)));
                 }
             }
@@ -81,8 +82,8 @@ namespace DataAccess.CRUD
                 Password = (string)row["Password"],
                 Status = (string)row["Status"],
                 BirthDate = (DateTime)row["BirthDate"],
-                PhoneNumber = (string)row["PhoneNumber"]
             };
+
             return user;
         }
     }

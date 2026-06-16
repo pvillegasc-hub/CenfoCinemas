@@ -48,39 +48,39 @@ public class SqlDao
 
         using (var conn = new SqlConnection(connectionString))
         {
-            using (var command = new SqlCommand(sqlOperation.ProcedureName, conn))
+            using (var command = new SqlCommand(sqlOperation.ProcedureName, conn)
             {
-                command.CommandType = CommandType.StoredProcedure;
-
-                // Set de los parametros que utiliza el SP
+                CommandType = System.Data.CommandType.StoredProcedure
+            })
+            {
+                //Set de los parametros que utiliza el SP
                 foreach (var param in sqlOperation.Parameters)
                 {
                     command.Parameters.Add(param);
                 }
 
-                // Ejecuta el SP
+                //Ejecuta el SP
                 conn.Open();
-                
-                // Ejecucion del SP con retorno de datos usando SqlDataReader
-                using (var reader = command.ExecuteReader())
+
+                //Ejecucion del SP con retorno de datos
+                var reader = command.ExecuteReader();
+
+                //Lectura del data set
+                if (reader.HasRows)
                 {
-                    // Lectura de data set
-                    if (reader.HasRows)
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        var row = new Dictionary<string, object>();
+
+                        for (var index = 0; index < reader.FieldCount; index++)
                         {
-                            var row = new Dictionary<string, object>();
+                            var key = reader.GetName(index);
+                            var value = reader.GetValue(index);
 
-                            for (var index = 0; index < reader.FieldCount; index++)
-                            {
-                                var key = reader.GetName(index);
-                                var value = reader.GetValue(index);
-
-                                row[key] = value;
-                            }
-
-                            lstResults.Add(row);
+                            row[key] = value;
                         }
+
+                        lstResults.Add(row);
                     }
                 }
             }

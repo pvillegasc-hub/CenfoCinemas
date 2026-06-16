@@ -33,6 +33,16 @@ public class Program
                 Console.WriteLine("Opción no válida");
                 break;
         }
+
+        Console.WriteLine("Listado de usuarios del aplicativo");
+
+        var uCrud = new UserCrudFactory();
+        var lstUsers = uCrud.RetrieveAll<User>();
+
+        foreach (var user in lstUsers)
+        {
+            Console.WriteLine(JsonConvert.SerializeObject(user));
+        }
     }
 
     public static void RegistrarUsuario(SqlDao sqlDao)
@@ -110,14 +120,4 @@ public class Program
 
         Console.WriteLine("Película agregada exitosamente!");
     }
-}
-
-Console.WriteLine("Listado de usuarios del aplicativo");
-
-var uCrud = new UserCrudFactory();
-var lstUsers = uCrud.RetrieveAll<User>();
-
-foreach (var user in lstUsers)
-{
-    Console.WriteLine(JsonConvert.SerializeObject(user));
 }
