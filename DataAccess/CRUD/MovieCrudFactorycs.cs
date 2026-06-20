@@ -46,12 +46,72 @@ namespace DataAccess.CRUD
 
         public override List<T> RetrieveAll<T>()
         {
-            throw new NotImplementedException();
+            // Lista que va a contener a todas las películas que se obtengan de la consulta a la BD
+            var lstMovies = new List<T>();
+
+            // Definir el SP
+            var operation = new SqlOperation();
+            operation.ProcedureName = "RET_ALL_MOVIES_PR";
+
+            // Ejecutamos el SP
+            var lstResult = sqlDao.ExecuteQueryProcedure(operation);
+
+            //Recorrer la lista de resultados y convertir cada fila en un objeto película, luego agregarlo a la lista de películas
+            if (lstResult.Count > 0)
+            {
+                foreach (var result in lstResult)
+                {
+                    var movie = BuildMovie(result);
+
+                    lstMovies.Add((T)Convert.ChangeType(movie, typeof(T)));
+                }
+            }
+            return lstMovies;
         }
 
         public override T RetrieveById<T>(int id)
         {
-            throw new NotImplementedException();
+            // Definir el SP
+            var operation = new SqlOperation();
+            operation.ProcedureName = "RET_MOVIE_BY_ID_PR";
+
+            operation.AddIntParameter("P_ID", id);
+
+            // Ejecutamos el SP
+            var lstResult = sqlDao.ExecuteQueryProcedure(operation);
+
+            // Recorrer la lista de resultados y convertir cada fila en un objeto película, luego retornar la película
+            if (lstResult.Count > 0)
+            {
+                var row = lstResult[0];
+                var movie = BuildMovie(row);
+
+                return (T)Convert.ChangeType(movie, typeof(T));
+            }
+
+            return default(T);
+        
         }
+
+        private Movie BuildMovie(Dictionary<string, object> row)
+        {
+            // Crea un nuevo objeto Movie y asigna sus propiedades a partir de los valores del diccionario
+            var movie = new Movie()
+            {
+                Id = (int)row["Id"],
+                //Created = (DateTime)row["Created"],
+                Title = (string)row["Title"],
+                Sinopsis = (string)row["Sinopsis"],
+                Genre = (string)row["Genre"],
+                Duration = (int)row["Duration"],
+                Clasification = (string)row["Clasification"],
+                Image = (string)row["Image"],
+                Status = (string)row["Status"]
+            };
+
+            return movie;
+        }
+
+
     }
 }

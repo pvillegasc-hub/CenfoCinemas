@@ -55,12 +55,69 @@ namespace DataAccess.CRUD
 
         public override T RetrieveById<T>(int id)
         {
-            throw new NotImplementedException();
+            // Definir el SP
+            var operation = new SqlOperation();
+            operation.ProcedureName = "RET_TICKET_BY_ID_PR";
+
+            operation.AddIntParameter("P_ID", id);
+
+            // Ejecutar el SP
+            var lstResult = sqlDao.ExecuteQueryProcedure(operation);
+
+            // Recorrer la lista de resultados y convertir el resultado en un objeto Ticket, para luego retornarlo
+            if (lstResult.Count > 0)
+            {
+                var row = lstResult[0];
+                var ticket = BuildTicket(row);
+
+                return (T)Convert.ChangeType(ticket, typeof(T));
+            }
+
+            return default(T);
         }
 
         public override List<T> RetrieveAll<T>()
         {
-            throw new NotImplementedException();
+            // Lista que va a contener a todos los tickets que se obtengan de la consulta a la BD
+            var lstTickets = new List<T>();
+
+            // Definir el SP
+            var operation = new SqlOperation();
+            operation.ProcedureName = "RET_ALL_TICKETS_PR";
+
+            // Ejecutar el SP
+            var lstResult = sqlDao.ExecuteQueryProcedure(operation);
+
+            // Recorrer la lista de resultados y convertir cada resultado en un objeto Ticket, para luego agregarlo a la lista de tickets
+            if (lstResult.Count > 0)
+            {
+                foreach (var result in lstResult)
+                {
+                    var ticket = BuildTicket(result);
+
+                    lstTickets.Add((T)Convert.ChangeType(ticket, typeof(T)));
+                }
+            }
+            return lstTickets;
         }
+        private Ticket BuildTicket(Dictionary<string, object> row)
+        {
+            // // Crea un nuevo objeto Ticket y asigna sus propiedades a partir de los valores del diccionario
+            var ticket = new Ticket()
+            {
+                Id = (int)row["Id"],
+                //Created = (DateTime)row["Created"],
+                Price = (decimal)row["Price"],
+                Schedule = (string)row["Schedule"],
+                Date = (DateTime)row["Date"],
+                Type = (string)row["Type"]
+            
+            };
+
+            return ticket;
+        }
+
+
+
     }
 }
