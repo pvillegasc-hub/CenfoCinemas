@@ -1,14 +1,13 @@
 ﻿using CoreApp;
 using Entities_DTOs;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 
-namespace WebApplication.Controllers
+namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         [HttpGet]
         [Route("RetrieveAll")]
@@ -26,8 +25,6 @@ namespace WebApplication.Controllers
             }
         }
 
-
-
         [HttpPost]
         [Route("Create")]
         public ActionResult Create(User user)
@@ -36,22 +33,44 @@ namespace WebApplication.Controllers
             {
                 var um = new UserManager();
                 um.Create(user);
-
                 return Ok(user);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
-       
-        
-        
-        
-        
-        
-        
-        
         }
-    
+
+        [HttpPut]
+        [Route("Update")]
+        public ActionResult Update(User user)
+        {
+            try
+            {
+                var um = new UserManager();
+                um.Update(user);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("Delete")]
+        public ActionResult Delete(User user)
+        {
+            try
+            {
+                var um = new UserManager();
+                um.Delete(user);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

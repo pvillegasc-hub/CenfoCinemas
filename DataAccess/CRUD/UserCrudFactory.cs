@@ -1,6 +1,12 @@
 ﻿using Balanceless.DAO;
 using Entities_DTOs;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace DataAccess.CRUD
 {
@@ -16,7 +22,7 @@ namespace DataAccess.CRUD
             //Convirtiendo el baseDTO en un objeto usuario
             var user = baseDTO as User;
 
-            //definir el SP, por medio del sql operación
+            //definir el SP, por medio del sql operation
             var sqlOperation = new SqlOperation();
             sqlOperation.ProcedureName = "CRE_USER_PR";
 
@@ -34,7 +40,17 @@ namespace DataAccess.CRUD
 
         public override void Delete(BaseDTO baseDTO)
         {
-            throw new NotImplementedException();
+            //Convirtiendo el baseDTO en un objeto usuario
+            var user = baseDTO as User;
+
+            //definir el SP, por medio del sql operation
+            var sqlOperation = new SqlOperation();
+            sqlOperation.ProcedureName = "DEL_USER_PR";
+
+            sqlOperation.AddIntParameter("P_ID", user.Id);
+
+            //Ejecutamos el SP
+            sqlDao.ExecuteProcedure(sqlOperation);
         }
 
         public override List<T> RetrieveAll<T>()
@@ -59,9 +75,13 @@ namespace DataAccess.CRUD
             return lstUsers;
         }
 
-        public override T RetrieveById<T>(int id)                 //aqui
+        public List<User> RetrieveAllUsers()
         {
+            throw new NotImplementedException();
+        }
 
+        public override T RetrieveById<T>(int id)
+        {
             var operation = new SqlOperation();
             operation.ProcedureName = "RET_USER_BY_ID_PR";
             operation.AddIntParameter("P_ID", id);
@@ -78,17 +98,28 @@ namespace DataAccess.CRUD
             }
 
             return default(T);
-
-
-
         }
-
-
-
 
         public override void Update(BaseDTO baseDTO)
         {
-            throw new NotImplementedException();
+            //Convirtiendo el baseDTO en un objeto usuario
+            var user = baseDTO as User;
+
+            //definir el SP, por medio del sql operation
+            var sqlOperation = new SqlOperation();
+            sqlOperation.ProcedureName = "UPD_USER_PR";
+
+            sqlOperation.AddIntParameter("P_ID", user.Id);
+            sqlOperation.AddStringParameter("P_USER_CODE", user.UserCode);
+            sqlOperation.AddStringParameter("P_NAME", user.Name);
+            sqlOperation.AddStringParameter("P_EMAIL", user.Email);
+            sqlOperation.AddStringParameter("P_PASSWORD", user.Password);
+            sqlOperation.AddDateTimeParameter("P_BIRTH_DATE", user.BirthDate);
+            sqlOperation.AddIntParameter("P_PHONE_NUMBER", user.PhoneNumber);
+            sqlOperation.AddStringParameter("P_STATUS", user.Status);
+
+            //Ejecutamos el SP
+            sqlDao.ExecuteProcedure(sqlOperation);
         }
 
         //Metodo que construye el DTO del usuario a partir de la data que viene en la consulta de la BD
