@@ -8,7 +8,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TicketController : ControllerBase
+    public class TicketsController : ControllerBase
     {
         [HttpGet]
         [Route("RetrieveAll")]
@@ -34,6 +34,40 @@ namespace WebAPI.Controllers
             {
                 var tm = new TicketManager();
                 tm.Create(ticket);
+
+                return Ok(ticket);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("Update")]
+        public ActionResult Update(Ticket ticket)
+        {
+            try
+            {
+                var tm = new TicketManager();
+                tm.Update(ticket);
+
+                return Ok(ticket);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("Delete")]
+        public ActionResult Delete(Ticket ticket)
+        {
+            try
+            {
+                var tm = new TicketManager();
+                tm.Delete(ticket);
 
                 return Ok(ticket);
             }

@@ -38,5 +38,10 @@ namespace Balanceless.DAO
         {
             Parameters.Add(new SqlParameter(parameterName, value));
         }
+
+        internal void AddIntParam(string v, int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
