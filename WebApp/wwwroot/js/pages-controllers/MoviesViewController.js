@@ -1,11 +1,11 @@
 ﻿//Definir una clase JS utilizando prototype
 
-function UserViewController() {
+function MovieViewController() {
 
-    this.ViewName = "Users";
+    this.ViewName = "Movies";
 
     //API que vamos a consumir desde esta vista
-    this.API_ControllerName = "Users";
+    this.API_ControllerName = "Movies";
 
     //metodo constructor
     this.InitView = function () {
@@ -18,7 +18,7 @@ function UserViewController() {
 
         var ca = new ControlActions();
 
-        //https://localhost:7053/api/Users/RetrieveAll
+        //https://localhost:7053/api/Movies/RetrieveAll
         //Endpoint que vamos a consumir
         var endPoint = this.API_ControllerName + "/RetrieveAll";
 
@@ -27,18 +27,18 @@ function UserViewController() {
         //Match de las columnas
         var columns = [];
         columns[0] = { 'data': 'id', title: 'ID' };
-        columns[1] = { 'data': 'userCode', title: 'User Code' };
-        columns[2] = { 'data': 'name', title: 'Name' };
-        columns[3] = { 'data': 'email', title: 'Email' };
-        columns[4] = { 'data': 'password', title: 'Password' };
-        columns[5] = { 'data': 'birthDate', title: 'Birth Date' };
-        columns[6] = { 'data': 'status', title: 'Status' };
-        columns[7] = { 'data': 'phoneNumber', title: 'Phone Number' };
-        columns[8] = { 'data': 'created', title: 'Created' };
-        columns[9] = { 'data': 'updated', title: 'Updated' };;
+        columns[1] = { 'data': 'title', title: 'Título' };
+        columns[2] = { 'data': 'director', title: 'Director' };
+        columns[3] = { 'data': 'year', title: 'Año' };
+        columns[4] = { 'data': 'genre', title: 'Género' };
+        columns[5] = { 'data': 'classification', title: 'Clasificación' };
+        columns[6] = { 'data': 'rating', title: 'Calificación' };
+        columns[7] = { 'data': 'duration', title: 'Duración' };
+        columns[8] = { 'data': 'created', title: 'Creado' };
+        columns[9] = { 'data': 'updated', title: 'Actualizado' };
 
         //Convertir la tabla plana en una tabla mas dinamica
-        $("#tblUsers").dataTable({
+        $("#tblMovies").dataTable({
             "ajax": {
                 url: urlService,
                 "dataSrc": ""
@@ -51,6 +51,6 @@ function UserViewController() {
 //Instancia de la clase
 $(document).ready(function () {
 
-    var vc = new UserViewController();
+    var vc = new MovieViewController();
     vc.InitView();
 });

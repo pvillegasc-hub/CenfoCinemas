@@ -1,11 +1,11 @@
 ﻿//Definir una clase JS utilizando prototype
 
-function UserViewController() {
+function TicketViewController() {
 
-    this.ViewName = "Users";
+    this.ViewName = "Tickets";
 
     //API que vamos a consumir desde esta vista
-    this.API_ControllerName = "Users";
+    this.API_ControllerName = "Tickets";
 
     //metodo constructor
     this.InitView = function () {
@@ -18,7 +18,7 @@ function UserViewController() {
 
         var ca = new ControlActions();
 
-        //https://localhost:7053/api/Users/RetrieveAll
+        //https://localhost:7053/api/Tickets/RetrieveAll
         //Endpoint que vamos a consumir
         var endPoint = this.API_ControllerName + "/RetrieveAll";
 
@@ -27,18 +27,15 @@ function UserViewController() {
         //Match de las columnas
         var columns = [];
         columns[0] = { 'data': 'id', title: 'ID' };
-        columns[1] = { 'data': 'userCode', title: 'User Code' };
-        columns[2] = { 'data': 'name', title: 'Name' };
-        columns[3] = { 'data': 'email', title: 'Email' };
-        columns[4] = { 'data': 'password', title: 'Password' };
-        columns[5] = { 'data': 'birthDate', title: 'Birth Date' };
-        columns[6] = { 'data': 'status', title: 'Status' };
-        columns[7] = { 'data': 'phoneNumber', title: 'Phone Number' };
-        columns[8] = { 'data': 'created', title: 'Created' };
-        columns[9] = { 'data': 'updated', title: 'Updated' };;
+        columns[1] = { 'data': 'price', title: 'Precio' };
+        columns[2] = { 'data': 'schedule', title: 'Horario' };
+        columns[3] = { 'data': 'date', title: 'Fecha' };
+        columns[4] = { 'data': 'type', title: 'Tipo' };
+        columns[5] = { 'data': 'created', title: 'Creado' };
+        columns[6] = { 'data': 'updated', title: 'Actualizado' };
 
         //Convertir la tabla plana en una tabla mas dinamica
-        $("#tblUsers").dataTable({
+        $("#tblTickets").dataTable({
             "ajax": {
                 url: urlService,
                 "dataSrc": ""
@@ -51,6 +48,6 @@ function UserViewController() {
 //Instancia de la clase
 $(document).ready(function () {
 
-    var vc = new UserViewController();
+    var vc = new TicketViewController();
     vc.InitView();
 });
